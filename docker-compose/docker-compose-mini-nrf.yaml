@@ -77,6 +77,8 @@ services:
             - USE_HTTP2=no
             - NRF_IPV4_ADDRESS=192.168.70.130
             - NRF_FQDN=oai-nrf
+            - INT_ALGO_LIST=["NIA1" , "NIA2"] # was modified to compatible with UERANSIM
+            - CIPH_ALGO_LIST=["NEA1" , "NEA2"] # was modified to compatible with UERANSIM
         depends_on:
             - mysql
             - oai-nrf

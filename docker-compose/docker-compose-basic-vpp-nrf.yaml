@@ -22,7 +22,7 @@ services:
                 ipv4_address: 192.168.70.131
     oai-udr:
         container_name: "oai-udr"
-        image: oaisoftwarealliance/oai-udr:v1.5.0
+        image: oai-udr:v1.5.0
         environment:
             - TZ=Europe/Paris
             - UDR_NAME=OAI_UDR
@@ -44,7 +44,7 @@ services:
                 ipv4_address: 192.168.70.136
     oai-udm:
         container_name: "oai-udm"
-        image: oaisoftwarealliance/oai-udm:v1.5.0
+        image: oai-udm:v1.5.0
         environment:
             - TZ=Europe/Paris
             - UDM_NAME=OAI_UDM
@@ -62,7 +62,7 @@ services:
                 ipv4_address: 192.168.70.137
     oai-ausf:
         container_name: "oai-ausf"
-        image: oaisoftwarealliance/oai-ausf:v1.5.0
+        image: oai-ausf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - AUSF_NAME=OAI_AUSF
@@ -80,7 +80,7 @@ services:
                 ipv4_address: 192.168.70.138
     oai-nrf:
         container_name: "oai-nrf"
-        image: oaisoftwarealliance/oai-nrf:v1.5.0
+        image: oai-nrf:v1.1.q
         environment:
             - TZ=Europe/Paris
             - NRF_INTERFACE_NAME_FOR_SBI=eth0
@@ -89,7 +89,7 @@ services:
                 ipv4_address: 192.168.70.130
     oai-amf:
         container_name: "oai-amf"
-        image: oaisoftwarealliance/oai-amf:v1.5.0
+        image: oai-amf:v1.5.0
         environment:
             - TZ=Europe/paris
             - MCC=208
@@ -132,6 +132,8 @@ services:
             - AUSF_FQDN=oai-ausf
             - UDM_IPV4_ADDRESS=192.168.70.137
             - UDM_FQDN=oai-udm
+            - INT_ALGO_LIST=["NIA1" , "NIA2"] # was modified to compatible with UERANSIM
+            - CIPH_ALGO_LIST=["NEA1" , "NEA2"] # was modified to compatible with UERANSIM
         depends_on:
             - mysql
             - vpp-upf
@@ -142,7 +144,7 @@ services:
                 ipv4_address: 192.168.70.132
     oai-smf:
         container_name: "oai-smf"
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - SMF_INTERFACE_NAME_FOR_N4=eth0
@@ -201,7 +203,7 @@ services:
     vpp-upf:
         privileged: true
         container_name: "vpp-upf"
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.5.0
         environment:
             - IF_1_IP=192.168.70.201
             - IF_1_TYPE=N4
@@ -245,7 +247,7 @@ services:
         privileged: true
         init: true
         container_name: "oai-ext-dn"
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         entrypoint: /bin/bash -c \
               "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;"\
               "ip route add 12.1.1.0/24 via 192.168.73.201 dev eth0; ip route; sleep infinity"
