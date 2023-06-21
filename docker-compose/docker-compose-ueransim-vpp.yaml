@@ -2,7 +2,7 @@ version: '3.8'
 services:
     ueransim:
         container_name: ueransim
-        image: ueransim:latest
+        image: ueransim:v1.1.q
         privileged: true
         environment:
             # GNB Congig Parameters
@@ -18,7 +18,7 @@ services:
             - SD=123
             - IGNORE_STREAM_IDS=true
             # UE Config Parameters
-            - NUMBER_OF_UE=1
+            - NUMBER_OF_UE=20
             - IMSI=208950000000031
             - KEY=0C0A34601D4F07677303652C0462535B
             - OP=63bfa50ee6523365ff14c1f45f88737d

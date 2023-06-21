@@ -20,64 +20,6 @@ services:
         networks:
             public_net:
                 ipv4_address: 192.168.70.131
-    oai-udr:
-        container_name: "oai-udr"
-        image: oai-udr:v1.5.0
-        environment:
-            - TZ=Europe/Paris
-            - UDR_NAME=OAI_UDR
-            - UDR_INTERFACE_NAME_FOR_NUDR=eth0
-            - MYSQL_IPV4_ADDRESS=192.168.70.131
-            - MYSQL_USER=test
-            - MYSQL_PASS=test
-            - MYSQL_DB=oai_db
-            - WAIT_MYSQL=120
-            - USE_FQDN_DNS=yes
-            - REGISTER_NRF=yes
-            - NRF_IPV4_ADDRESS=192.168.70.130
-            - NRF_FQDN=oai-nrf
-        depends_on:
-            - mysql
-            - oai-nrf
-        networks:
-            public_net:
-                ipv4_address: 192.168.70.136
-    oai-udm:
-        container_name: "oai-udm"
-        image: oai-udm:v1.5.0
-        environment:
-            - TZ=Europe/Paris
-            - UDM_NAME=OAI_UDM
-            - SBI_IF_NAME=eth0
-            - REGISTER_NRF=yes
-            - USE_FQDN_DNS=yes
-            - UDR_IP_ADDRESS=192.168.70.136
-            - UDR_FQDN=oai-udr
-            - NRF_IPV4_ADDRESS=192.168.70.130
-            - NRF_FQDN=oai-nrf
-        depends_on:
-            - oai-udr
-        networks:
-            public_net:
-                ipv4_address: 192.168.70.137
-    oai-ausf:
-        container_name: "oai-ausf"
-        image: oai-ausf:v1.5.0
-        environment:
-            - TZ=Europe/Paris
-            - AUSF_NAME=OAI_AUSF
-            - SBI_IF_NAME=eth0
-            - USE_FQDN_DNS=yes
-            - REGISTER_NRF=yes
-            - UDM_IP_ADDRESS=192.168.70.137
-            - UDM_FQDN=oai-udm
-            - NRF_IPV4_ADDRESS=192.168.70.130
-            - NRF_FQDN=oai-nrf
-        depends_on:
-            - oai-udm
-        networks:
-            public_net:
-                ipv4_address: 192.168.70.138
     oai-nrf:
         container_name: "oai-nrf"
         image: oai-nrf:v1.1.q
@@ -115,6 +57,11 @@ services:
             - SD_1=12
             - AMF_INTERFACE_NAME_FOR_NGAP=eth0
             - AMF_INTERFACE_NAME_FOR_N11=eth0
+            # mysql definition in AMF is mandatory in mini deployment.
+            - MYSQL_SERVER=192.168.70.131
+            - MYSQL_USER=root
+            - MYSQL_PASS=linux
+            - MYSQL_DB=oai_db
             # One single SMF instance
             - SMF_INSTANCE_ID_0=1
             - SMF_FQDN_0=oai-smf
@@ -123,28 +70,21 @@ services:
             - NF_REGISTRATION=yes
             - SMF_SELECTION=yes
             - USE_FQDN_DNS=yes
-            - EXTERNAL_AUSF=yes
-            - EXTERNAL_UDM=no
-            - EXTERNAL_NSSF=no
+            - USE_HTTP2=no
             - NRF_IPV4_ADDRESS=192.168.70.130
             - NRF_FQDN=oai-nrf
-            - AUSF_IPV4_ADDRESS=192.168.70.138
-            - AUSF_FQDN=oai-ausf
-            - UDM_IPV4_ADDRESS=192.168.70.137
-            - UDM_FQDN=oai-udm
             - INT_ALGO_LIST=["NIA1" , "NIA2"] # was modified to compatible with UERANSIM
             - CIPH_ALGO_LIST=["NEA1" , "NEA2"] # was modified to compatible with UERANSIM
         depends_on:
             - mysql
             - vpp-upf
             - oai-ext-dn
-            - oai-ausf
         networks:
             public_net:
                 ipv4_address: 192.168.70.132
     oai-smf:
         container_name: "oai-smf"
-        image: oai-smf:v1.5.0
+        image: oai-smf:v1.0.q
         environment:
             - TZ=Europe/Paris
             - SMF_INTERFACE_NAME_FOR_N4=eth0
@@ -153,13 +93,10 @@ services:
             - DEFAULT_DNS_SEC_IPV4_ADDRESS=8.8.8.8
             - AMF_IPV4_ADDRESS=192.168.70.132
             - AMF_FQDN=oai-amf
-            - UDM_IPV4_ADDRESS=192.168.70.137
-            - UDM_FQDN=oai-udm
             - UPF_IPV4_ADDRESS=192.168.70.201
             - UPF_FQDN_0=vpp-upf.node.5gcn.mnc95.mcc208.3gppnetwork.org
             - NRF_IPV4_ADDRESS=192.168.70.130
             - NRF_FQDN=oai-nrf
-            - DEFAULT_CSCF_IPV4_ADDRESS=127.0.0.1  # only needed when ims is being used
             - USE_LOCAL_SUBSCRIPTION_INFO=yes  #Set to yes if SMF uses local subscription information instead of from an UDM
             - REGISTER_NRF=yes
             - DISCOVER_UPF=yes

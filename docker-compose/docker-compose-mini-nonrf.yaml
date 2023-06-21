@@ -19,10 +19,10 @@ services:
             retries: 30
         networks:
             public_net:
-                ipv4_address: 192.168.70.131
+                ipv4_address: 171.168.70.131
     oai-amf:
         container_name: "oai-amf"
-        image: oaisoftwarealliance/oai-amf:v1.5.0
+        image: oai-amf:v1.5.0
         environment:
             - TZ=Europe/paris
             - MCC=208
@@ -53,33 +53,33 @@ services:
             - AMF_INTERFACE_NAME_FOR_NGAP=eth0
             - AMF_INTERFACE_NAME_FOR_N11=eth0
             # mysql definition in AMF is mandatory in mini deployment.
-            - MYSQL_SERVER=192.168.70.131
+            - MYSQL_SERVER=171.168.70.131
             - MYSQL_USER=root
             - MYSQL_PASS=linux
             - MYSQL_DB=oai_db
             # One single SMF instance
             - SMF_INSTANCE_ID_0=1
             - SMF_FQDN_0=oai-smf
-            - SMF_IPV4_ADDR_0=192.168.70.133
+            - SMF_IPV4_ADDR_0=171.168.70.133
             - SELECTED_0=true
             - USE_FQDN_DNS=yes
         depends_on:
             - mysql
         networks:
             public_net:
-                ipv4_address: 192.168.70.132
+                ipv4_address: 171.168.70.132
     oai-smf:
         container_name: "oai-smf"
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - SMF_INTERFACE_NAME_FOR_N4=eth0
             - SMF_INTERFACE_NAME_FOR_SBI=eth0
             - DEFAULT_DNS_IPV4_ADDRESS=172.21.3.100
             - DEFAULT_DNS_SEC_IPV4_ADDRESS=8.8.8.8
-            - AMF_IPV4_ADDRESS=192.168.70.132
+            - AMF_IPV4_ADDRESS=171.168.70.132
             - AMF_FQDN=oai-amf
-            - UPF_IPV4_ADDRESS=192.168.70.134
+            - UPF_IPV4_ADDRESS=171.168.70.134
             - UPF_FQDN_0=oai-spgwu
             - USE_LOCAL_SUBSCRIPTION_INFO=yes  #Set to yes if SMF uses local subscription information instead of from an UDM
             - USE_FQDN_DNS=yes
@@ -117,10 +117,10 @@ services:
             - oai-amf
         networks:
             public_net:
-                ipv4_address: 192.168.70.133
+                ipv4_address: 171.168.70.133
     oai-spgwu:
         container_name: "oai-spgwu"
-        image: oaisoftwarealliance/oai-spgwu-tiny:v1.5.0
+        image: oai-spgwu-tiny:v1.5.0
         environment:
             - TZ=Europe/Paris
             - SGW_INTERFACE_NAME_FOR_S1U_S12_S4_UP=eth0
@@ -155,14 +155,14 @@ services:
         privileged: true
         networks:
             public_net:
-                ipv4_address: 192.168.70.134
+                ipv4_address: 171.168.70.134
     oai-ext-dn:
         privileged: true
         init: true
         container_name: oai-ext-dn
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         entrypoint: /bin/bash -c \
-              "ip route add 12.1.1.0/24 via 192.168.70.134 dev eth0; ip route; sleep infinity"
+              "ip route add 12.1.1.0/24 via 171.168.70.134 dev eth0; ip route; sleep infinity"
         command: ["/bin/bash", "-c", "trap : SIGTERM SIGINT; sleep infinity & wait"]
         healthcheck:
             test: /bin/bash -c "ip r | grep 12.1.1"
@@ -171,7 +171,7 @@ services:
             retries: 5
         networks:
             public_net:
-                ipv4_address: 192.168.70.135
+                ipv4_address: 171.168.70.135
 networks:
     # public_net:
     #     external:
@@ -181,6 +181,6 @@ networks:
         name: demo-oai-public-net
         ipam:
             config:
-                - subnet: 192.168.70.128/26
+                - subnet: 171.168.70.128/26
         driver_opts:
             com.docker.network.bridge.name: "demo-oai"

@@ -43,6 +43,8 @@ BASIC_NO_NRF = 'docker-compose-basic-nonrf.yaml'
 BASIC_VPP_W_NRF = 'docker-compose-basic-vpp-nrf.yaml'
 BASIC_VPP_NO_NRF = 'docker-compose-basic-vpp-nonrf.yaml'
 
+MINI_VPP_W_NRF = 'docker-compose-mini-vpp-nrf.yaml'
+
 def _parse_args() -> argparse.Namespace:
     """Parse the command line args
 
@@ -51,6 +53,7 @@ def _parse_args() -> argparse.Namespace:
     """
     example_text = '''example:
         python3 core-network.py --type start-mini
+        python3 core-network.py --type start-mini-vpp
         python3 core-network.py --type start-basic
         python3 core-network.py --type start-basic-vpp
         python3 core-network.py --type stop-mini
@@ -66,8 +69,8 @@ def _parse_args() -> argparse.Namespace:
         '--type', '-t',
         action='store',
         required=True,
-        choices=['start-mini', 'start-basic', 'start-basic-vpp', 'stop-mini', 'stop-basic', 'stop-basic-vpp'],
-        help='Functional type of 5g core network ("start-mini"|"start-basic"|"start-basic-vpp"|"stop-mini"|"stop-basic"|"stop-basic-vpp")',
+        choices=['start-mini', 'start-mini-vpp', 'start-basic', 'start-basic-vpp', 'stop-mini', 'stop-basic', 'stop-basic-vpp', 'stop-mini-vpp'],
+        help='Functional type of 5g core network ("start-mini"|"start-mini-vpp"|"start-basic"|"start-basic-vpp"|"stop-mini"|"stop-basic"|"stop-basic-vpp"|"stop-mini-vpp")',
     )
     # Deployment scenario with NRF/ without NRF
     parser.add_argument(
@@ -191,7 +194,7 @@ def check_config(file_name):
         smf_registration_nrf = run_cmd(cmd, False)
         if smf_registration_nrf is not None:
             print(smf_registration_nrf)
-        if file_name == BASIC_VPP_W_NRF:
+        if file_name == BASIC_VPP_W_NRF or file_name == MINI_VPP_W_NRF:
             cmd = 'curl -s -X GET http://192.168.70.130/nnrf-nfm/v1/nf-instances?nf-type="UPF" | grep -o "192.168.70.201"'
         else:
             cmd = 'curl -s -X GET http://192.168.70.130/nnrf-nfm/v1/nf-instances?nf-type="UPF" | grep -o "192.168.70.134"'
@@ -224,7 +227,7 @@ def check_config(file_name):
                 logging.debug('\033[0;32m AUSF, UDM, UDR, AMF, SMF and UPF are registered to NRF\033[0m....')
             else:
                 logging.debug('\033[0;32m AMF, SMF and UPF are registered to NRF\033[0m....')
-        if file_name == BASIC_VPP_W_NRF:
+        if file_name == BASIC_VPP_W_NRF or file_name == MINI_VPP_W_NRF:
             logging.debug('\033[0;34m Checking if SMF is able to connect with UPF\033[0m....')
             cmd1 = 'docker logs oai-smf | grep "Received N4 ASSOCIATION SETUP RESPONSE from an UPF"'
             cmd2 = 'docker logs oai-smf | grep "Node ID Type FQDN: vpp-upf"'
@@ -350,3 +353,9 @@ if __name__ == '__main__':
             undeploy(BASIC_VPP_W_NRF)
         elif args.scenario == '2':
             undeploy(BASIC_VPP_NO_NRF)
+
+
+    elif args.type == 'start-mini-vpp':
+            deploy(MINI_VPP_W_NRF)
+    elif args.type == 'stop-mini-vpp':
+            undeploy(MINI_VPP_W_NRF)
