@@ -22,7 +22,7 @@ services:
                 ipv4_address: 192.168.70.131
     oai-udr:
         container_name: "oai-udr"
-        image: oaisoftwarealliance/oai-udr:v1.5.0
+        image: oai-udr:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -51,7 +51,7 @@ services:
                 ipv4_address: 192.168.70.136
     oai-udm:
         container_name: "oai-udm"
-        image: oaisoftwarealliance/oai-udm:v1.5.0
+        image: oai-udm:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -77,7 +77,7 @@ services:
                 ipv4_address: 192.168.70.137
     oai-ausf:
         container_name: "oai-ausf"
-        image: oaisoftwarealliance/oai-ausf:v1.5.0
+        image: oai-ausf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE_ID=0
@@ -102,7 +102,7 @@ services:
                 ipv4_address: 192.168.70.138
     oai-nrf:
         container_name: "oai-nrf"
-        image: oaisoftwarealliance/oai-nrf:v1.5.0
+        image: oai-nrf:v1.5.0
         environment:
             - NRF_INTERFACE_NAME_FOR_SBI=eth0
             - NRF_INTERFACE_PORT_FOR_SBI=80
@@ -115,7 +115,7 @@ services:
                 ipv4_address: 192.168.70.130
     oai-amf:
         container_name: "oai-amf"
-        image: oaisoftwarealliance/oai-amf:v1.5.0
+        image: oai-amf:v1.5.0
         environment:
             - TZ=Europe/paris
             - INSTANCE=0
@@ -188,7 +188,7 @@ services:
                 ipv4_address: 192.168.70.132
     oai-smf:
         container_name: "oai-smf"
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -261,7 +261,7 @@ services:
             public_net:
                 ipv4_address: 192.168.70.133
     oai-pcf:
-        image: oaisoftwarealliance/oai-pcf:v1.5.0
+        image: oai-pcf:v1.5.0
         container_name: "oai-pcf"
         environment:
             - INSTANCE=0
@@ -292,7 +292,7 @@ services:
             public_net:
                 ipv4_address: 192.168.70.139
     vpp-upf-ulcl:
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.5.0
         privileged: true
         container_name: "vpp-upf-ulcl"
         environment:
@@ -342,7 +342,7 @@ services:
             public_net_core21:
                 ipv4_address: 192.168.74.151
     vpp-upf-aupf1:
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.5.0
         privileged: true
         container_name: "vpp-upf-aupf1"
         environment:
@@ -387,7 +387,7 @@ services:
             public_net_core12:
                 ipv4_address: 192.168.75.152
     vpp-upf-aupf2:
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.5.0
         privileged: true
         container_name: "vpp-upf-aupf2"
         environment:
@@ -433,7 +433,7 @@ services:
                 ipv4_address: 192.168.76.153
 
     oai-ext-dn-internet:
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         privileged: true
         init: true
         container_name: "oai-ext-dn-internet"
@@ -450,7 +450,7 @@ services:
             public_net_core12:
                 ipv4_address: 192.168.75.160
     oai-ext-dn-edge:
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         privileged: true
         init: true
         container_name: "oai-ext-dn-edge"

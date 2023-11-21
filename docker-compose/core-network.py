@@ -42,8 +42,8 @@ BASIC_W_NRF = 'docker-compose-basic-nrf.yaml'
 BASIC_NO_NRF = 'docker-compose-basic-nonrf.yaml'
 BASIC_VPP_W_NRF = 'docker-compose-basic-vpp-nrf.yaml'
 BASIC_VPP_NO_NRF = 'docker-compose-basic-vpp-nonrf.yaml'
-
 MINI_VPP_W_NRF = 'docker-compose-mini-vpp-nrf.yaml'
+MINI_VPP_NO_NRF = 'docker-compose-mini-vpp-nonrf.yaml'
 
 def _parse_args() -> argparse.Namespace:
     """Parse the command line args
@@ -277,7 +277,7 @@ def check_config(file_name):
     # With noNRF configuration checks
     elif args.scenario == '2':
         logging.debug('\033[0;34m Checking if SMF is able to connect with UPF\033[0m....')
-        if file_name == BASIC_VPP_NO_NRF:
+        if file_name == BASIC_VPP_NO_NRF or file_name == MINI_VPP_NO_NRF:
             cmd1 = 'docker logs oai-smf | grep "Received N4 ASSOCIATION SETUP RESPONSE from an UPF"'
             cmd2 = 'docker logs oai-smf | grep "Node ID Type FQDN: gw1"'
             upf_logs1 = run_cmd(cmd1)
@@ -338,6 +338,13 @@ if __name__ == '__main__':
         # Basic function without NRF but with VPP-UPF
         elif args.scenario == '2':
             deploy(BASIC_VPP_NO_NRF, True)
+    elif args.type == 'start-mini-vpp':
+        # Mini function with NRF and VPP-UPF
+        if args.scenario == '1':
+            deploy(MINI_VPP_W_NRF, True)
+        # Mini function without NRF but with VPP-UPF
+        elif args.scenario == '2':
+            deploy(MINI_VPP_NO_NRF, True)
     elif args.type == 'stop-mini':
         if args.scenario == '1':
             undeploy(MINI_W_NRF)
@@ -353,9 +360,8 @@ if __name__ == '__main__':
             undeploy(BASIC_VPP_W_NRF)
         elif args.scenario == '2':
             undeploy(BASIC_VPP_NO_NRF)
-
-
-    elif args.type == 'start-mini-vpp':
-            deploy(MINI_VPP_W_NRF)
     elif args.type == 'stop-mini-vpp':
+        if args.scenario == '1':
             undeploy(MINI_VPP_W_NRF)
+        elif args.scenario == '2':
+            undeploy(MINI_VPP_NO_NRF)

@@ -22,7 +22,7 @@ services:
                 ipv4_address: 192.168.70.131
     oai-nssf:
         container_name: "oai-nssf"
-        image: oaisoftwarealliance/oai-nssf:v1.5.0
+        image: oai-nssf:v1.5.0
         environment:
             - INSTANCE=0
             - TZ=Europe/Paris
@@ -48,7 +48,7 @@ services:
                 ipv4_address: 192.168.70.132
     oai_udr:
         container_name: oai-udr
-        image: oaisoftwarealliance/oai-udr:v1.5.0
+        image: oai-udr:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -69,7 +69,7 @@ services:
                 ipv4_address: 192.168.70.133
     oai_udm:
         container_name: oai-udm
-        image: oaisoftwarealliance/oai-udm:v1.5.0
+        image: oai-udm:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -90,7 +90,7 @@ services:
                 ipv4_address: 192.168.70.134
     oai_ausf:
         container_name: oai-ausf
-        image: oaisoftwarealliance/oai-ausf:v1.5.0
+        image: oai-ausf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE_ID=0
@@ -110,7 +110,7 @@ services:
                 ipv4_address: 192.168.70.135
     oai_nrf_slice12:
         container_name: oai-nrf-slice12
-        image: oaisoftwarealliance/oai-nrf:v1.5.0
+        image: oai-nrf:v1.5.0
         environment:
             - NRF_INTERFACE_NAME_FOR_SBI=eth0
             - NRF_INTERFACE_PORT_FOR_SBI=80
@@ -123,7 +123,7 @@ services:
                 ipv4_address: 192.168.70.136
     oai_nrf_slice3:
         container_name: oai-nrf-slice3
-        image: oaisoftwarealliance/oai-nrf:v1.5.0
+        image: oai-nrf:v1.5.0
         environment:
             - NRF_INTERFACE_NAME_FOR_SBI=eth0
             - NRF_INTERFACE_PORT_FOR_SBI=80
@@ -136,7 +136,7 @@ services:
                 ipv4_address: 192.168.70.137
     oai_amf:
         container_name: oai-amf
-        image: oaisoftwarealliance/oai-amf:v1.5.0
+        image: oai-amf:v1.5.0
         environment:
             - TZ=Europe/paris
             - INSTANCE=0
@@ -215,7 +215,7 @@ services:
                 ipv4_address: 192.168.70.138
     oai_smf_slice1:
         container_name: oai-smf-slice1
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -262,7 +262,7 @@ services:
                 ipv4_address: 192.168.70.139
     oai_smf_slice2:
         container_name: oai-smf-slice2
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -308,7 +308,7 @@ services:
                 ipv4_address: 192.168.70.140
     oai_smf_slice3:
         container_name: oai-smf-slice3
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -358,7 +358,7 @@ services:
                 ipv4_address: 192.168.70.141
     oai_spgwu_slice1:
         container_name: oai-spgwu-slice1
-        image: oaisoftwarealliance/oai-spgwu-tiny:v1.5.0
+        image: oai-spgwu-tiny:v1.5.0
         environment:
             - TZ=Europe/Paris
             - PID_DIRECTORY=/var/run
@@ -399,7 +399,7 @@ services:
                 ipv4_address: 192.168.70.142
     oai_spgwu_slice2:
         container_name: oai-spgwu-slice2
-        image: oaisoftwarealliance/oai-spgwu-tiny:v1.5.0
+        image: oai-spgwu-tiny:v1.5.0
         environment:
             - TZ=Europe/Paris
             - PID_DIRECTORY=/var/run
@@ -437,7 +437,7 @@ services:
             public_net:
                 ipv4_address: 192.168.70.143
     vpp_upf_slice3:
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.5.0
         privileged: true
         container_name: vpp-upf-slice3
         environment:
@@ -480,7 +480,7 @@ services:
             public_net_core:
                 ipv4_address: 192.168.73.144
     oai_ext_dn:
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         privileged: true
         init: true
         container_name: oai-ext-dn

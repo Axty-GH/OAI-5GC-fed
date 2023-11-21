@@ -22,7 +22,7 @@ services:
                 ipv4_address: 192.168.70.131
     oai-udr:
         container_name: "oai-udr"
-        image: oaisoftwarealliance/oai-udr:v1.5.0
+        image: oai-udr:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -48,7 +48,7 @@ services:
                 ipv4_address: 192.168.70.136
     oai-udm:
         container_name: "oai-udm"
-        image: oaisoftwarealliance/oai-udm:v1.5.0
+        image: oai-udm:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -72,7 +72,7 @@ services:
                 ipv4_address: 192.168.70.137
     oai-ausf:
         container_name: "oai-ausf"
-        image: oaisoftwarealliance/oai-ausf:v1.5.0
+        image: oai-ausf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE_ID=0
@@ -95,7 +95,7 @@ services:
                 ipv4_address: 192.168.70.138
     oai-amf:
         container_name: "oai-amf"
-        image: oaisoftwarealliance/oai-amf:v1.5.0
+        image: oai-amf:v1.5.0
         environment:
             - TZ=Europe/paris
             - INSTANCE=0
@@ -157,6 +157,8 @@ services:
             - UDM_PORT=80
             - UDM_API_VERSION=v2
             - UDM_FQDN=oai-udm
+            - INT_ALGO_LIST=["NIA1" , "NIA2"] # was modified to compatible with UERANSIM
+            - CIPH_ALGO_LIST=["NEA1" , "NEA2"] # was modified to compatible with UERANSIM
         depends_on:
             - mysql
             - vpp-upf
@@ -167,7 +169,7 @@ services:
                 ipv4_address: 192.168.70.132
     oai-smf:
         container_name: "oai-smf"
-        image: oaisoftwarealliance/oai-smf:v1.5.0
+        image: oai-smf:v1.5.0
         environment:
             - TZ=Europe/Paris
             - INSTANCE=0
@@ -211,7 +213,7 @@ services:
     vpp-upf:
         privileged: true
         container_name: "vpp-upf"
-        image: oaisoftwarealliance/oai-upf-vpp:v1.5.0
+        image: oai-upf-vpp:v1.1.q
         environment:
             - IF_1_IP=192.168.70.201
             - IF_1_TYPE=N4
@@ -253,7 +255,7 @@ services:
         privileged: true
         init: true
         container_name: "oai-ext-dn"
-        image: oaisoftwarealliance/trf-gen-cn5g:latest
+        image: trf-gen-cn5g:latest
         entrypoint: /bin/bash -c \
               "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;"\
               "ip route add 12.1.1.0/24 via 192.168.73.201 dev eth0; ip route; sleep infinity"

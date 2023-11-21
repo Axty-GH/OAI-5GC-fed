@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+    oai-spgwu:
+        container_name: "oai-spgwu"
+        image: oai-spgwu-tiny:v1.5.0
+        environment:
+            - TZ=Europe/Paris
+            - SGW_INTERFACE_NAME_FOR_S1U_S12_S4_UP=eth0
+            - SGW_INTERFACE_NAME_FOR_SX=eth0
+            - PGW_INTERFACE_NAME_FOR_SGI=eth0
+            - NETWORK_UE_NAT_OPTION=yes
+            - NETWORK_UE_IP=12.1.1.0/24
+            - ENABLE_5G_FEATURES=yes
+            - REGISTER_NRF=no
+            - USE_FQDN_NRF=no
+            - UPF_FQDN_5G=oai-spgwu
+            - NRF_IPV4_ADDRESS=0.0.0.0
+            - NRF_FQDN=localhost
+            # Slice 0 (1, 0xFFFFFF)
+            - NSSAI_SST_0=1
+            - DNN_0=oai
+            # Slice 1 (1, 1)
+            - NSSAI_SST_1=1
+            - NSSAI_SD_1=1
+            - DNN_1=oai.ipv4
+            # Slice 2 (222, 123)
+            - NSSAI_SST_2=222
+            - NSSAI_SD_2=123
+            - DNN_2=default
+        cap_add:
+            - NET_ADMIN
+            - SYS_ADMIN
+        cap_drop:
+            - ALL
+        privileged: true
+        networks:
+            public_net:
+                ipv4_address: 171.168.70.134
+networks:
+    public_net:
+        driver: bridge
+        name: demo-oai-public-net
+        ipam:
+            config:
+                - subnet: 171.168.70.128/26
+        driver_opts:
+            com.docker.network.bridge.name: "demo-oai"

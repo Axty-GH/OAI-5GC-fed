@@ -20,15 +20,6 @@ services:
         networks:
             public_net:
                 ipv4_address: 192.168.70.131
-    oai-nrf:
-        container_name: "oai-nrf"
-        image: oai-nrf:v1.1.q
-        environment:
-            - TZ=Europe/Paris
-            - NRF_INTERFACE_NAME_FOR_SBI=eth0
-        networks:
-            public_net:
-                ipv4_address: 192.168.70.130
     oai-amf:
         container_name: "oai-amf"
         image: oai-amf:v1.5.0
@@ -67,15 +58,17 @@ services:
             - SMF_FQDN_0=oai-smf
             - SMF_IPV4_ADDR_0=192.168.70.133
             - SELECTED_0=true
-            - NF_REGISTRATION=yes
-            - SMF_SELECTION=yes
+            - NF_REGISTRATION=no
+            - SMF_SELECTION=no
             - USE_FQDN_DNS=yes
             - EXTERNAL_AUSF=yes
             - EXTERNAL_UDM=no
             - EXTERNAL_NSSF=no
             - USE_HTTP2=no
-            - NRF_IPV4_ADDRESS=192.168.70.130
-            - NRF_FQDN=oai-nrf
+            - NRF_IPV4_ADDRESS=0.0.0.0 # not used in this scenario, can't remove
+            - NRF_PORT=80 # not used in this scenario, can't remove
+            - NRF_API_VERSION=v1 # not used in this scenario, can't remove
+            - NRF_FQDN=localhost # not used in this scenario, can't remove
             - INT_ALGO_LIST=["NIA1" , "NIA2"] # was modified to compatible with UERANSIM
             - CIPH_ALGO_LIST=["NEA1" , "NEA2"] # was modified to compatible with UERANSIM
         depends_on:
@@ -98,11 +91,11 @@ services:
             - AMF_FQDN=oai-amf
             - UPF_IPV4_ADDRESS=192.168.70.201
             - UPF_FQDN_0=vpp-upf.node.5gcn.mnc95.mcc208.3gppnetwork.org
-            - NRF_IPV4_ADDRESS=192.168.70.130
-            - NRF_FQDN=oai-nrf
+#            - NRF_IPV4_ADDRESS=192.168.70.130
+#            - NRF_FQDN=oai-nrf
             - USE_LOCAL_SUBSCRIPTION_INFO=yes  #Set to yes if SMF uses local subscription information instead of from an UDM
-            - REGISTER_NRF=yes
-            - DISCOVER_UPF=yes
+            - REGISTER_NRF=no
+            - DISCOVER_UPF=no
             - USE_FQDN_DNS=yes
             - USE_NETWORK_INSTANCE=yes
             - ENABLE_USAGE_REPORTING=yes
@@ -165,12 +158,10 @@ services:
             - SNSSAI_SD=123
             - SNSSAI_SST=222
             - DNN=default
-            - REGISTER_NRF=yes
-            - NRF_IP_ADDR=192.168.70.130
-            - NRF_PORT=80
-            - HTTP_VERSION=1
-        depends_on:
-            - oai-nrf
+            - REGISTER_NRF=no # not used in this scenario, can't remove
+            - NRF_IP_ADDR=0.0.0.0 # not used in this scenario, can't remove
+            - NRF_PORT=80 # not used in this scenario, can't remove
+            - HTTP_VERSION=2 # not used in this scenario, can't remove
         healthcheck:
             test: /bin/bash -c "pgrep vpp"
             interval: 10s
